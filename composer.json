@@ -1,0 +1,20 @@
+{
+    "name": "mapado/stripe",
+    "description": "High level api for stripe-php",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Julien Deniau",
+            "email": "julien.deniau@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Mapado\\Stripe\\": "src/" }
+    },
+    "require": {
+        "stripe/stripe-php": "1.*"
+    },
+    "require-dev": {
+        "atoum/atoum": "dev-master@dev"
+    }
+}
