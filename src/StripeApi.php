@@ -34,12 +34,13 @@ class StripeApi
      * getInvoiceListForClient
      *
      * @param string $clientId
+     * @param array $params
      * @access public
      * @return array
      */
-    public function getInvoiceListForClient($clientId)
+    public function getInvoiceListForClient($clientId, array $params = array())
     {
-        $stripeInvoiceList = \Stripe_Invoice::all(['customer' => $clientId]);
+        $stripeInvoiceList = \Stripe_Invoice::all(['customer' => $clientId] + $params);
 
         $invoiceList = [];
         if (!empty($stripeInvoiceList)) {
