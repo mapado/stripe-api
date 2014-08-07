@@ -32,3 +32,4 @@ The current package is in early development. A very small number of methods is i
 
 Feel free to fork it and create pull requests to add your logic.
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b4746ea8-de0a-45db-b735-883429f82252/small.png)](https://insight.sensiolabs.com/projects/b4746ea8-de0a-45db-b735-883429f82252)
