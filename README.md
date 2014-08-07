@@ -1,5 +1,5 @@
-stripe-api
-==========
+Stripe-api [![Build Status](https://travis-ci.org/mapado/stripe-api.svg?branch=master)](https://travis-ci.org/mapado/stripe-api)
+================
 
 High level api for [stripe-php](https://github.com/stripe/stripe-php)
 
@@ -31,3 +31,4 @@ $subscription = $invoice->getSubscription();
 The current package is in early development. A very small number of methods is implemented.
 
 Feel free to fork it and create pull requests to add your logic.
+
