@@ -100,6 +100,22 @@ class StripeApi
     }
 
     /**
+     * createCustomer
+     *
+     * @param array $customerInfo
+     * @access public
+     * @return CustomerProxy
+     */
+    public function createCustomer(array $customerInfo)
+    {
+        $stripeCustomer = \Stripe_Customer::create($customerInfo);
+        $customerProxy = new CustomerProxy($stripeCustomer, $this);
+        $this->customerList[$customerProxy->id] = $customerProxy;
+
+        return $this->customerList[$customerProxy->id];
+    }
+
+    /**
      * getSubscription
      *
      * @param string $customerId
