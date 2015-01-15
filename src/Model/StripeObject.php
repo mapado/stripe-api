@@ -45,6 +45,12 @@ class StripeObject
      */
     public function __call($name, array $arguments = [])
     {
+        if (method_exists($this->stripeObject, $name)) {
+            return call_user_func_array(array($this->stripeObject, $name), $arguments);
+        }
+
+
+
         if (substr($name, 0, 3) === 'get') {
             $argName = $this->getArgName($name);
 
@@ -54,7 +60,7 @@ class StripeObject
 
             $this->stripeObject[$argName] = $arguments[0];
         } elseif (method_exists($this, 'get' . ucfirst($name))) {
-            return call_user_func_array(array($this, $name), $arguments);
+            return call_user_func_array(array($this, 'get' . ucfirst($name)), $arguments);
         } else {
             return $this->stripeObject[$this->getArgName($name)];
         }
