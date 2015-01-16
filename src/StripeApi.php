@@ -2,6 +2,7 @@
 
 namespace Mapado\Stripe;
 
+use Mapado\Stripe\Model\CardProxy;
 use Mapado\Stripe\Model\ChargeProxy;
 use Mapado\Stripe\Model\CustomerProxy;
 use Mapado\Stripe\Model\InvoiceProxy;
@@ -132,5 +133,23 @@ class StripeApi
             $this->subscriptionList[$subscriptionId] = $subProxy;
         }
         return $this->subscriptionList[$subscriptionId];
+    }
+
+    /**
+     * getCards
+     * @param string $customerId
+     *
+     * @return CardProxy
+     */
+    public function getDefaultCard($customerId)
+    {
+        $customer      = $this->getCustomer($customerId);
+        $defaultCardId = $customer->getDefaultCard();
+
+        if (!$defaultCardId) {
+            return;
+        }
+
+        return new CardProxy($customer->cards->retrieve($defaultCardId));
     }
 }
