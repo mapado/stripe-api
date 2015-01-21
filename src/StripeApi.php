@@ -7,6 +7,7 @@ use Mapado\Stripe\Model\ChargeProxy;
 use Mapado\Stripe\Model\CustomerProxy;
 use Mapado\Stripe\Model\InvoiceProxy;
 use Mapado\Stripe\Model\SubscriptionProxy;
+use Mapado\Stripe\Model\EventProxy;
 
 class StripeApi
 {
