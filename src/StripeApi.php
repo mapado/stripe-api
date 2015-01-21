@@ -117,6 +117,20 @@ class StripeApi
     }
 
     /**
+     * getEvent
+     *
+     * @param string $invoiceId
+     * @access public
+     * @return EventProxy
+     */
+    public function getEvent($eventId)
+    {
+        $event = \Stripe_Event::retrieve($eventId);
+
+        return new EventProxy($event, $this);
+    }
+
+    /**
      * getSubscription
      *
      * @param string $customerId
