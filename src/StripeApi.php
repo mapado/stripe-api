@@ -7,6 +7,7 @@ use Mapado\Stripe\Model\ChargeProxy;
 use Mapado\Stripe\Model\CustomerProxy;
 use Mapado\Stripe\Model\InvoiceProxy;
 use Mapado\Stripe\Model\SubscriptionProxy;
+use Mapado\Stripe\Model\EventProxy;
 
 class StripeApi
 {
@@ -114,6 +115,20 @@ class StripeApi
         $this->customerList[$customerProxy->id] = $customerProxy;
 
         return $this->customerList[$customerProxy->id];
+    }
+
+    /**
+     * getEvent
+     *
+     * @param string $invoiceId
+     * @access public
+     * @return EventProxy
+     */
+    public function getEvent($eventId)
+    {
+        $event = \Stripe_Event::retrieve($eventId);
+
+        return new EventProxy($event, $this);
     }
 
     /**
