@@ -64,6 +64,16 @@ class InvoiceProxy extends StripeObject
         $customerId = $this->stripeObject['customer'];
         return $this->api->getSubscription($customerId, $subId);
     }
+    
+    /**
+     * Return subscription id
+     *
+     * @return integer
+     */
+    public function getSubscriptionId()
+    {
+        return $this->stripeObject['subscription'];
+    }
 
     /**
      * getCharge
