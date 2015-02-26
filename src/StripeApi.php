@@ -20,6 +20,22 @@ class StripeApi
     private $subscriptionList;
 
     /**
+     * customerList
+     *
+     * @var array
+     * @access private
+     */
+    private $customerList;
+
+    /**
+     * chargeList
+     *
+     * @var array
+     * @access private
+     */
+    private $chargeList;
+
+    /**
      * __construct
      *
      * @param string stripePrivateKey
@@ -76,12 +92,33 @@ class StripeApi
      */
     public function getCharge($chargeId)
     {
-        try {
-            $charge = \Stripe_Charge::retrieve($chargeId);
-        } catch (\Stripe_InvalidRequestError $e) {
-            return null;
+        if (!isset($this->chargeList[$chargeId])) {
+            try {
+                $stripeCharge = \Stripe_Charge::retrieve($chargeId);
+                $chargeProxy = new ChargeProxy($stripeCharge, $this);
+                $this->chargeList[$chargeId] = $chargeProxy;
+            } catch (\Stripe_InvalidRequestError $e) {
+                ldd($e);
+            }
+
         }
-        return new ChargeProxy($charge, $this);
+        return $this->chargeList[$chargeId];
+    }
+
+    /**
+     * createCharge
+     *
+     * @param array $chargeInfo
+     * @access public
+     * @return ChargeProxy
+     */
+    public function createCharge(array $chargeInfo)
+    {
+        $stripeCharge = \Stripe_Charge::create($chargeInfo);
+        $chargeProxy = new ChargeProxy($stripeCharge, $this);
+        $this->chargeList[$chargeId] = $chargeProxy;
+
+        return $this->chargeList[$chargeId] = $chargeProxy;
     }
 
     /**
