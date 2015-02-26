@@ -20,6 +20,22 @@ class StripeApi
     private $subscriptionList;
 
     /**
+     * customerList
+     *
+     * @var array
+     * @access private
+     */
+    private $customerList;
+
+    /**
+     * chargeList
+     *
+     * @var array
+     * @access private
+     */
+    private $chargeList;
+
+    /**
      * __construct
      *
      * @param string stripePrivateKey
@@ -43,14 +59,12 @@ class StripeApi
     public function getInvoiceListForClient($clientId, array $params = array())
     {
         $stripeInvoiceList = \Stripe_Invoice::all(['customer' => $clientId] + $params);
-
         $invoiceList = [];
         if (!empty($stripeInvoiceList)) {
             foreach ($stripeInvoiceList['data'] as $stripeInvoice) {
                 $invoiceList[] = new InvoiceProxy($stripeInvoice, $this);
             }
         }
-
         return $invoiceList;
     }
 
@@ -76,12 +90,29 @@ class StripeApi
      */
     public function getCharge($chargeId)
     {
-        try {
-            $charge = \Stripe_Charge::retrieve($chargeId);
-        } catch (\Stripe_InvalidRequestError $e) {
-            return null;
+        if (!isset($this->chargeList[$chargeId])) {
+            $stripeCharge = \Stripe_Charge::retrieve($chargeId);
+            $chargeProxy = new ChargeProxy($stripeCharge, $this);
+            $this->chargeList[$chargeId] = $chargeProxy;
         }
-        return new ChargeProxy($charge, $this);
+        return $this->chargeList[$chargeId];
+    }
+
+    /**
+     * createCharge
+     *
+     * @param array $chargeInfo
+     * @access public
+     * @return ChargeProxy
+     */
+    public function createCharge(array $chargeInfo)
+    {
+        $stripeCharge = \Stripe_Charge::create($chargeInfo);
+        $chargeProxy = new ChargeProxy($stripeCharge, $this);
+        $chargeId = $stripeCharge['id'];
+        $this->chargeList[$chargeId] = $chargeProxy;
+
+        return $this->chargeList[$chargeId] = $chargeProxy;
     }
 
     /**
