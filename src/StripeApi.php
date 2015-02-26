@@ -109,6 +109,7 @@ class StripeApi
     {
         $stripeCharge = \Stripe_Charge::create($chargeInfo);
         $chargeProxy = new ChargeProxy($stripeCharge, $this);
+        $chargeId = $stripeCharge['id'];
         $this->chargeList[$chargeId] = $chargeProxy;
 
         return $this->chargeList[$chargeId] = $chargeProxy;
