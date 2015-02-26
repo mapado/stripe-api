@@ -59,14 +59,12 @@ class StripeApi
     public function getInvoiceListForClient($clientId, array $params = array())
     {
         $stripeInvoiceList = \Stripe_Invoice::all(['customer' => $clientId] + $params);
-
         $invoiceList = [];
         if (!empty($stripeInvoiceList)) {
             foreach ($stripeInvoiceList['data'] as $stripeInvoice) {
                 $invoiceList[] = new InvoiceProxy($stripeInvoice, $this);
             }
         }
-
         return $invoiceList;
     }
 
@@ -93,14 +91,9 @@ class StripeApi
     public function getCharge($chargeId)
     {
         if (!isset($this->chargeList[$chargeId])) {
-            try {
-                $stripeCharge = \Stripe_Charge::retrieve($chargeId);
-                $chargeProxy = new ChargeProxy($stripeCharge, $this);
-                $this->chargeList[$chargeId] = $chargeProxy;
-            } catch (\Stripe_InvalidRequestError $e) {
-                ldd($e);
-            }
-
+            $stripeCharge = \Stripe_Charge::retrieve($chargeId);
+            $chargeProxy = new ChargeProxy($stripeCharge, $this);
+            $this->chargeList[$chargeId] = $chargeProxy;
         }
         return $this->chargeList[$chargeId];
     }
