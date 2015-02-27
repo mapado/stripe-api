@@ -9,28 +9,6 @@ use Mapado\Stripe\StripeApi;
 class ChargeProxy extends StripeObject
 {
     /**
-     * api
-     *
-     * @var StripeApi
-     * @access private
-     */
-    private $api;
-
-    /**
-     * __construct
-     *
-     * @param Stripe_Charge $charge
-     * @param StripeApi $api
-     * @access public
-     * @return void
-     */
-    public function __construct(Stripe_Charge $charge, StripeApi $api)
-    {
-        parent::__construct($charge);
-        $this->api = $api;
-    }
-
-    /**
      * getRefunds
      *
      * @access public
