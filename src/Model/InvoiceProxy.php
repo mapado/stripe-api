@@ -9,34 +9,12 @@ use Mapado\Stripe\StripeApi;
 class InvoiceProxy extends StripeObject
 {
     /**
-     * api
-     *
-     * @var StripeApi
-     * @access private
-     */
-    private $api;
-
-    /**
      * discount
      *
      * @var discount
      * @access private
      */
     private $discount;
-
-    /**
-     * __construct
-     *
-     * @param Stripe_Invoice $invoice
-     * @param StripeApi $api
-     * @access public
-     * @return void
-     */
-    public function __construct(Stripe_Invoice $invoice, StripeApi $api)
-    {
-        parent::__construct($invoice);
-        $this->api = $api;
-    }
 
     /**
      * isRefunded

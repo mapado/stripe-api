@@ -196,6 +196,6 @@ class StripeApi
             return;
         }
 
-        return new CardProxy($customer->cards->retrieve($defaultCardId));
+        return new CardProxy($customer->cards->retrieve($defaultCardId), $this);
     }
 }

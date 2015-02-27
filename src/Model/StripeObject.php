@@ -2,6 +2,8 @@
 
 namespace Mapado\Stripe\Model;
 
+use Mapado\Stripe\StripeApi;
+
 class StripeObject
 {
     /**
@@ -13,15 +15,24 @@ class StripeObject
     protected $stripeObject;
 
     /**
+     * api
+     *
+     * @var StripeApi
+     * @access protected
+     */
+    protected $api;
+
+    /**
      * __construct
      *
      * @param mixed $stripeObject
      * @access public
      * @return void
      */
-    public function __construct($stripeObject)
+    public function __construct($stripeObject, StripeApi $api)
     {
         $this->stripeObject = $stripeObject;
+        $this->api = $api;
     }
 
     /**
@@ -48,8 +59,6 @@ class StripeObject
         if (method_exists($this->stripeObject, $name)) {
             return call_user_func_array(array($this->stripeObject, $name), $arguments);
         }
-
-
 
         if (substr($name, 0, 3) === 'get') {
             $argName = $this->getArgName($name);

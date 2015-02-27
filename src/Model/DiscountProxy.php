@@ -6,6 +6,6 @@ class DiscountProxy extends StripeObject
 {
     public function getCoupon()
     {
-        return new CouponProxy($this->stripeObject['coupon']);
+        return new CouponProxy($this->stripeObject['coupon'], $this->api);
     }
 }
