@@ -6,7 +6,7 @@ High level api for [stripe-php](https://github.com/stripe/stripe-php)
 ## Installation
 Install with [composer](http://www.getcomposer.org):
 ```sh
-composer require "mapado/stripe:0.*"
+composer require "mapado/stripe:~0.7"
 ```
 
 ## Usage
