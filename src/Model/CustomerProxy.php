@@ -21,14 +21,7 @@ class CustomerProxy extends StripeObject
      */
     public function getChargeList(array $params = array())
     {
-        $stripeChargeList = \Stripe_Charge::all(['customer' => $this->getId()] + $params);
-        $chargeList = [];
-        if (!empty($stripeChargeList)) {
-            foreach ($stripeChargeList['data'] as $stripeCharge) {
-                $chargeList[] = new ChargeProxy($stripeCharge, $this);
-            }
-        }
-        return $chargeList;
+        return $this->api->getChargeListForClient($this->getId(), $params);
     }
 
     /**
@@ -38,15 +31,8 @@ class CustomerProxy extends StripeObject
      * @access public
      * @return array
      */
-    public function getInvoiceListForClient(array $params = array())
+    public function getInvoiceList(array $params = array())
     {
-        $stripeInvoiceList = \Stripe_Invoice::all(['customer' => $this->getId()] + $params);
-        $invoiceList = [];
-        if (!empty($stripeInvoiceList)) {
-            foreach ($stripeInvoiceList['data'] as $stripeInvoice) {
-                $invoiceList[] = new InvoiceProxy($stripeInvoice, $this);
-            }
-        }
-        return $invoiceList;
+        return $this->api->getInvoiceListForClient($this->getId(), $params);
     }
 }
