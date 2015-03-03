@@ -69,6 +69,26 @@ class StripeApi
     }
 
     /**
+     * getChargeListForClient
+     *
+     * @param string $clientId
+     * @param array $params
+     * @access public
+     * @return array
+     */
+    public function getChargeListForClient($clientId, array $params = array())
+    {
+        $stripeChargeList = \Stripe_Charge::all(['customer' => $clientId] + $params);
+        $chargeList = [];
+        if (!empty($stripeChargeList)) {
+            foreach ($stripeChargeList['data'] as $stripeCharge) {
+                $chargeList[] = new ChargeProxy($stripeCharge, $this);
+            }
+        }
+        return $chargeList;
+    }
+
+    /**
      * getInvoice
      *
      * @param string $invoiceId
