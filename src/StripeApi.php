@@ -4,6 +4,7 @@ namespace Mapado\Stripe;
 
 use Mapado\Stripe\Model\CardProxy;
 use Mapado\Stripe\Model\ChargeProxy;
+use Mapado\Stripe\Model\CouponProxy;
 use Mapado\Stripe\Model\CustomerProxy;
 use Mapado\Stripe\Model\InvoiceProxy;
 use Mapado\Stripe\Model\SubscriptionProxy;
