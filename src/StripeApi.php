@@ -4,6 +4,7 @@ namespace Mapado\Stripe;
 
 use Mapado\Stripe\Model\CardProxy;
 use Mapado\Stripe\Model\ChargeProxy;
+use Mapado\Stripe\Model\CouponProxy;
 use Mapado\Stripe\Model\CustomerProxy;
 use Mapado\Stripe\Model\InvoiceProxy;
 use Mapado\Stripe\Model\SubscriptionProxy;
@@ -34,6 +35,14 @@ class StripeApi
      * @access private
      */
     private $chargeList;
+
+    /**
+     * couponList
+     *
+     * @var array
+     * @access private
+     */
+    private $couponList;
 
     /**
      * __construct
@@ -86,6 +95,42 @@ class StripeApi
             }
         }
         return $chargeList;
+    }
+
+    /**
+     * getCouponList
+     *
+     * @param array $params
+     * @access public
+     * @return array
+     */
+    public function getCouponList(array $params = array())
+    {
+        $stripeCouponList = \Stripe_Coupon::all($params);
+        $couponList = [];
+        if (!empty($stripeCouponList)) {
+            foreach ($stripeCouponList['data'] as $stripeCoupon) {
+                $couponList[] = new CouponProxy($stripeCoupon, $this);
+            }
+        }
+        return $couponList;
+    }
+
+    /**
+     * getCoupon
+     *
+     * @param string $couponId
+     * @access public
+     * @return CouponProxy
+     */
+    public function getCoupon($couponId)
+    {
+        if (!isset($this->couponList[$couponId])) {
+            $stripeCoupon = \Stripe_Coupon::retrieve($couponId);
+            $couponProxy = new CouponProxy($stripeCoupon, $this);
+            $this->couponList[$couponId] = $couponProxy;
+        }
+        return $this->couponList[$couponId];
     }
 
     /**
