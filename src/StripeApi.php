@@ -110,7 +110,11 @@ class StripeApi
         $couponList = [];
         if (!empty($stripeCouponList)) {
             foreach ($stripeCouponList['data'] as $stripeCoupon) {
-                $couponList[] = new CouponProxy($stripeCoupon, $this);
+                $couponProxy = new CouponProxy($stripeCoupon, $this);
+                $couponList[] = $couponProxy;
+                if (!isset($this->couponList[$couponProxy->getId()])) {
+                    $this->couponList[$couponProxy->getId()] = $couponProxy;
+                }
             }
         }
         return $couponList;
