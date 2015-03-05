@@ -36,6 +36,14 @@ class StripeApi
     private $chargeList;
 
     /**
+     * couponList
+     *
+     * @var array
+     * @access private
+     */
+    private $couponList;
+
+    /**
      * __construct
      *
      * @param string stripePrivateKey
@@ -86,6 +94,42 @@ class StripeApi
             }
         }
         return $chargeList;
+    }
+
+    /**
+     * getCouponList
+     *
+     * @param array $params
+     * @access public
+     * @return array
+     */
+    public function getCouponList(array $params = array())
+    {
+        $stripeCouponList = \Stripe_Coupon::all($params);
+        $couponList = [];
+        if (!empty($stripeCouponList)) {
+            foreach ($stripeCouponList['data'] as $stripeCoupon) {
+                $couponList[] = new CouponProxy($stripeCoupon, $this);
+            }
+        }
+        return $couponList;
+    }
+
+    /**
+     * getCoupon
+     *
+     * @param string $couponId
+     * @access public
+     * @return CouponProxy
+     */
+    public function getCoupon($couponId)
+    {
+        if (!isset($this->couponList[$couponId])) {
+            $stripeCoupon = \Stripe_Coupon::retrieve($couponId);
+            $couponProxy = new CouponProxy($stripeCoupon, $this);
+            $this->couponList[$couponId] = $couponProxy;
+        }
+        return $this->couponList[$couponId];
     }
 
     /**
