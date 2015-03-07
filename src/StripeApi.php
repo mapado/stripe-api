@@ -71,7 +71,11 @@ class StripeApi
         $invoiceList = [];
         if (!empty($stripeInvoiceList)) {
             foreach ($stripeInvoiceList['data'] as $stripeInvoice) {
-                $invoiceList[] = new InvoiceProxy($stripeInvoice, $this);
+                $invoiceProxy = new InvoiceProxy($stripeInvoice, $this);
+                $invoiceList[] = $invoiceProxy;
+                if (!isset($this->invoiceList[$invoiceProxy->getId()])) {
+                    $this->invoiceList[$invoiceProxy->getId()] = $invoiceProxy;
+                }
             }
         }
         return $invoiceList;
@@ -91,7 +95,11 @@ class StripeApi
         $chargeList = [];
         if (!empty($stripeChargeList)) {
             foreach ($stripeChargeList['data'] as $stripeCharge) {
-                $chargeList[] = new ChargeProxy($stripeCharge, $this);
+                $chargeProxy = new ChargeProxy($stripeCharge, $this);
+                $chargeList[] = $chargeProxy;
+                if (!isset($this->chargeList[$chargeProxy->getId()])) {
+                    $this->chargeList[$chargeProxy->getId()] = $chargeProxy;
+                }
             }
         }
         return $chargeList;
@@ -110,7 +118,11 @@ class StripeApi
         $couponList = [];
         if (!empty($stripeCouponList)) {
             foreach ($stripeCouponList['data'] as $stripeCoupon) {
-                $couponList[] = new CouponProxy($stripeCoupon, $this);
+                $couponProxy = new CouponProxy($stripeCoupon, $this);
+                $couponList[] = $couponProxy;
+                if (!isset($this->couponList[$couponProxy->getId()])) {
+                    $this->couponList[$couponProxy->getId()] = $couponProxy;
+                }
             }
         }
         return $couponList;
