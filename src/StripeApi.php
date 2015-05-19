@@ -267,12 +267,12 @@ class StripeApi
     public function getDefaultCard($customerId)
     {
         $customer      = $this->getCustomer($customerId);
-        $defaultCardId = $customer->getDefaultCard();
+        $defaultSourceId = $customer->getDefaultSource();
 
-        if (!$defaultCardId) {
+        if (!$defaultSourceId) {
             return;
         }
 
-        return new CardProxy($customer->cards->retrieve($defaultCardId), $this);
+        return new CardProxy($customer->sources->retrieve($defaultSourceId), $this);
     }
 }
